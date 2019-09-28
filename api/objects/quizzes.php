@@ -1,31 +1,31 @@
 <?php
   class Quizzes {
-    private $dbConnect;
+    private $pdo;
     private $tableName = 'quizzes';
 
     public $id;
     public $name;
 
-    public function __construct($database) {
-      $this->dbConnect = $database;
+    public function __construct($pdo) {
+      $this->pdo = $pdo;
     }
 
     function read() {
       $query = 'SELECT * FROM ' . $this->tableName;
 
-      $statement = $this->dbConnect->prepare($query);
-      $statement->execute();
+      $stmt = $this->pdo->prepare($query);
+      $stmt->execute();
 
-      return $statement;
+      return $stmt;
     }
 
     function create(){
-      $query = $query = "INSERT INTO " . $this->tableName . " SET name=:name";
+      $query = "INSERT INTO " . $this->tableName . " SET name=:name";
       
-      $statement = $this->dbConnect->prepare($query);
-      $statement->bindParam(":name", $this->name);
+      $stmt = $this->pdo->prepare($query);
+      $stmt->bindParam(":name", $this->name);
    
-      if($statement->execute()) {
+      if($stmt->execute()) {
         return true;
       }
 

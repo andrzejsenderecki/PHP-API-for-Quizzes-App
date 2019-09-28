@@ -6,19 +6,19 @@
   require '../objects/quizzes.php';
 
   $dbConnect = new dbConnect();
-  $database = $dbConnect->getConnection();
+  $pdo = $dbConnect->getConnection();
 
-  $quiz = new Quizzes($database);
+  $quiz = new Quizzes($pdo);
 
-  $statement = $quiz->read();
+  $stmt = $quiz->read();
 
-  $recordsCount = $statement->rowCount();
- 
+  $recordsCount = $stmt->rowCount();
+  echo('cześć');
   if($recordsCount > 0){
       $quizzesArray = array();
       $quizzesArray["quizzes"] = array();
 
-      while ($record = $statement->fetch(PDO::FETCH_ASSOC)) {
+      while ($record = $stmt->fetch(PDO::FETCH_ASSOC)) {
           extract($record);
   
           $quiz=array(
@@ -30,6 +30,11 @@
       }
   
       http_response_code(200);
-      echo json_encode($quizzesArray);
+      echo('cześć');
+      // echo json_encode($quizzesArray);
   }
+
+  ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>

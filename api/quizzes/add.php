@@ -9,25 +9,25 @@
   require '../objects/quizzes.php';
 
   $dbConnect = new dbConnect();
-  $database = $dbConnect->getConnection();
+  $pdo = $dbConnect->getConnection();
 
-  $quiz = new Quizzes($database);
+  $quiz = new Quizzes($pdo);
 
-  $data = json_decode(file_get_contents("php://input"));
+  $data = $_POST;
 
-  if(!empty($data->name)) {
-    $quiz->name = $data->name;
+  if(!empty($data['name'])) {
+    $quiz->name = $data['name'];
 
     if($quiz->create()){
       http_response_code(201);
-      echo json_encode(array("Code 201 - success"));
+      echo ("Code 201 - success");
     }
     else {
       http_response_code(503);
-      echo json_encode(array("Code 503 - error"));
+      echo ("Code 503 - error");
     }
   } else {
     http_response_code(400);
-    echo json_encode(array("Code 400 - no data"));
+    echo ("Code 400 - no data");
   }
 ?>
